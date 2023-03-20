@@ -17,6 +17,7 @@ class priorityQueue:
         else:
             return False
 
+
     def check(self):
         print(self.cities)
 
@@ -29,7 +30,6 @@ class ctNode:
 
 jatim = {}
 
-
 def makedict():
     file = open("actuals.txt", 'r')
     for string in file:
@@ -39,7 +39,6 @@ def makedict():
         dist = int(line[2])
         jatim.setdefault(ct1, []).append(ctNode(ct2, dist))
         jatim.setdefault(ct2, []).append(ctNode(ct1, dist))
-
 
 def makehuristikdict():
     h = {}
@@ -58,7 +57,6 @@ def heuristic(node, values):
 
 def astar(start, end):
     startTime = time.time()
-    print(startTime)
     path = {}
     distance = {}
     q = priorityQueue()
@@ -79,8 +77,6 @@ def astar(start, end):
         for new in jatim[current]:
             g_cost = distance[current] + int(new.distance)
 
-            # print(new.city, new.distance, "now : " + str(distance[current]), g_cost)
-
             if (new.city not in distance or g_cost < distance[new.city]):
                 distance[new.city] = g_cost
                 f_cost = g_cost + heuristic(new.city, h)
@@ -88,12 +84,11 @@ def astar(start, end):
                 path[new.city] = current
 
     endTime = time.time()
-    print(endTime)
-    finalTime = (endTime - startTime)
+    finalTime = endTime - startTime
     printoutput(start, end, path, distance, finalTime)
 
 
-def printoutput(start, end, path, distance, time):
+def printoutput(start, end, path, distance, finalTime):
     finalpath = []
     i = end
 
@@ -109,7 +104,7 @@ def printoutput(start, end, path, distance, time):
     print("Kota yg dilewati dg jarak terpendek\t: " + str(finalpath))
     print("Jumlah kota yang dilewati \t\t: " + str(len(finalpath)))
     print("Total jarak \t\t\t\t: " + str(distance[end]))
-    print("Waktu\t\t\t\t\t: " + str(time))
+    print("Waktu\t\t\t\t\t: " + str(finalTime))
 
 
 def main():
