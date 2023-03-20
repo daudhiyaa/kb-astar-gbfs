@@ -1,7 +1,5 @@
 import time
 import heapq
-import os
-os.chdir("C:\Disk\Kuliah\Semester_4\KecerdasanBuatan\kb-astar-gbfs")
 
 class priorityQueue:
     def __init__(self):
@@ -33,7 +31,7 @@ jatim = {}
 
 
 def makedict():
-    file = open("citiesGraph.txt", 'r')
+    file = open("actuals.txt", 'r')
     for string in file:
         line = string.split(',')
         ct1 = line[0]
@@ -59,6 +57,8 @@ def heuristic(node, values):
 
 
 def astar(start, end):
+    startTime = time.time()
+    print(startTime)
     path = {}
     distance = {}
     q = priorityQueue()
@@ -87,10 +87,13 @@ def astar(start, end):
                 q.push(new.city, f_cost)
                 path[new.city] = current
 
-    printoutput(start, end, path, distance, expandedList)
+    endTime = time.time()
+    print(endTime)
+    finalTime = (endTime - startTime)
+    printoutput(start, end, path, distance, finalTime)
 
 
-def printoutput(start, end, path, distance, expandedlist):
+def printoutput(start, end, path, distance, time):
     finalpath = []
     i = end
 
@@ -99,15 +102,14 @@ def printoutput(start, end, path, distance, expandedlist):
         i = path[i]
     finalpath.append(start)
     finalpath.reverse()
-    # print("Program algoritma Astar untuk masalah Romania")
-    # print("\tArad => Bucharest")
-    # print("=======================================================")
-    # print("Kota yg mungkin dijelajah \t\t: " + str(expandedlist))
-    # print("Jumlah kemungkinan kota \t\t: " + str(len(expandedlist)))
-    # print("=======================================================")
+
+    print("----------------------------\n| A* SEARCH |\n----------------------------")
+    print("Asal\t\t\t\t\t: " + start)
+    print("Tujuan\t\t\t\t\t: " + end)
     print("Kota yg dilewati dg jarak terpendek\t: " + str(finalpath))
     print("Jumlah kota yang dilewati \t\t: " + str(len(finalpath)))
     print("Total jarak \t\t\t\t: " + str(distance[end]))
+    print("Waktu\t\t\t\t\t: " + str(time))
 
 
 def main():
