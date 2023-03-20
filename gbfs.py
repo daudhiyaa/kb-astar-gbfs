@@ -4,7 +4,6 @@ import time
 
 heuristics = defaultdict(list)
 graph = defaultdict(list)
-startTime = time.time()
 
 def addHeuristic(u, v):
     global heuristics
@@ -14,12 +13,13 @@ def addEdge(u, v):
     global graph
     graph[u].append(v)
 
-def print_path(path, start_node, goal_node):
+def print_path(path, start_node, goal_node, finalTime):
     global heuristics
     distance = 0
     print("----------------------------\n| GREEDY BEST FIRST SEARCH |\n----------------------------")
     print("Asal\t\t\t: " + start_node)
     print("Tujuan\t\t\t: " + goal_node)
+    print("Waktu\t\t\t: " + str(finalTime))
 
     for i in path:
         distance += heuristics[i][0]
@@ -31,8 +31,8 @@ def print_path(path, start_node, goal_node):
 
 
 def GBFS(start, end):
-    print(startTime)
     global heuristics, graph
+    startTime = time.time()
     flag = False
     path = []
     path.append(start)
@@ -47,8 +47,10 @@ def GBFS(start, end):
                 start = i
         path.append(start)
 
+    endTime = time.time()
+    finalTime = endTime - startTime
     if flag:
-        print_path(path, start_node, goal_node)
+        print_path(path, start_node, goal_node, finalTime)
         return path
     else: []
 
@@ -189,5 +191,4 @@ if __name__ == "__main__":
     start_node = "Magetan"
     goal_node = "Surabaya"
     gbfs = GBFS(start_node, goal_node)
-    print("Waktu\t\t\t: " + str(time.time() - startTime))
     draw_map(city, gbfs, graph_actual)
