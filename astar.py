@@ -1,7 +1,6 @@
-import time
-import heapq
+import time, heapq
 
-class priorityQueue:
+class priority_queue:
     def __init__(self):
         self.cities = []
 
@@ -12,55 +11,46 @@ class priorityQueue:
         return heapq.heappop(self.cities)[1]
 
     def isEmpty(self):
-        if (self.cities == []):
-            return True
-        else:
-            return False
-
+        return True if self.cities == [] else False
 
     def check(self):
         print(self.cities)
-
 
 class ctNode:
     def __init__(self, city, distance):
         self.city = str(city)
         self.distance = str(distance)
 
-
 jatim = {}
-
 def makedict():
-    file = open("actuals.txt", 'r')
-    for string in file:
-        line = string.split(',')
-        ct1 = line[0]
-        ct2 = line[1]
-        dist = int(line[2])
+    f = open("actuals.txt")
+    for line in f.readlines():
+        word = line.split()
+        ct1 = word[0]
+        ct2 = word[1]
+        dist = int(word[2])
         jatim.setdefault(ct1, []).append(ctNode(ct2, dist))
         jatim.setdefault(ct2, []).append(ctNode(ct1, dist))
 
-def makehuristikdict():
+def get_heuristics():
     h = {}
-    with open("heuristics.txt", 'r') as file:
-        for line in file:
+    with open("heuristics.txt", 'r') as f:
+        for line in f:
             line = line.strip().split()
             node = line[0].strip()
             sld = int(line[1].strip())
             h[node] = sld
     return h
 
-
 def heuristic(node, values):
     return values[node]
-
 
 def astar(start, end):
     startTime = time.time()
     path = {}
     distance = {}
-    q = priorityQueue()
-    h = makehuristikdict()
+    q = priority_queue()
+    h = get_heuristics()
 
     q.push(start, 0)
     distance[start] = 0
@@ -87,7 +77,6 @@ def astar(start, end):
     finalTime = endTime - startTime
     printoutput(start, end, path, distance, finalTime)
 
-
 def printoutput(start, end, path, distance, finalTime):
     finalpath = []
     i = end
@@ -98,21 +87,16 @@ def printoutput(start, end, path, distance, finalTime):
     finalpath.append(start)
     finalpath.reverse()
 
-    print("----------------------------\n| A* SEARCH |\n----------------------------")
-    print("Asal\t\t\t\t\t: " + start)
-    print("Tujuan\t\t\t\t\t: " + end)
-    print("Kota yg dilewati dg jarak terpendek\t: " + str(finalpath))
-    print("Jumlah kota yang dilewati \t\t: " + str(len(finalpath)))
-    print("Total jarak \t\t\t\t: " + str(distance[end]))
-    print("Waktu\t\t\t\t\t: " + str(finalTime))
+    print("---------------------------\n|\t A* SEARCH\t   |\n---------------------------")
+    print("Asal\t\t\t\t: " + start)
+    print("Tujuan\t\t\t\t: " + end)
+    print("Kota yg dilewati\t\t:", finalpath)
+    print("Jumlah kota yang dilewati \t:", len(finalpath))
+    print("Total jarak \t\t\t:", distance[end])
+    print("Waktu\t\t\t\t:", finalTime)
 
-
-def main():
+if __name__ == "__main__":
     src = "Magetan"
     dst = "Surabaya"
     makedict()
     astar(src, dst)
-
-
-if __name__ == "__main__":
-    main()
