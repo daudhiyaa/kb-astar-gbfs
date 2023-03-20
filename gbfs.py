@@ -4,6 +4,7 @@ import time
 
 heuristics = defaultdict(list)
 graph = defaultdict(list)
+startTime = time.time()
 
 def addHeuristic(u, v):
     global heuristics
@@ -28,12 +29,12 @@ def print_path(path, start_node, goal_node):
         print(city + " -> ", end='') if goal_node != city else print(city)
     print("Jarak\t\t\t:", distance)
 
+
 def GBFS(start, end):
+    print(startTime)
     global heuristics, graph
     flag = False
     path = []
-    startTime = time.time()
-    print(startTime)
     path.append(start)
     while (True):
         if start == end:
@@ -46,10 +47,10 @@ def GBFS(start, end):
                 start = i
         path.append(start)
 
-    endTime = time.time()
-    print(endTime)
-    print("Waktu\t\t\t: ", str(endTime - startTime))
-    return path if flag else []
+    if flag:
+        print_path(path, start_node, goal_node)
+        return path
+    else: []
 
 def get_city():
     city = {}
@@ -67,9 +68,9 @@ def get_city():
 
 def create_graph():
     graph_actual = {}
-    f = open("actual_cost.txt")
+    f = open("actuals.txt")
     for i in f.readlines():
-        node_val = i.split()
+        node_val = i.split(",")
 
         if node_val[0] in graph_actual and node_val[1] in graph_actual:
             c = graph_actual.get(node_val[0])
@@ -185,8 +186,8 @@ if __name__ == "__main__":
 
     graph_actual = create_graph()
     city, citiesCode = get_city()
-    start_node = input("Masukkan Kota Asal\t")
-    goal_node = input("Masukkan Kota Tujuan\t")
+    start_node = "Magetan"
+    goal_node = "Surabaya"
     gbfs = GBFS(start_node, goal_node)
-    print_path(gbfs, start_node, goal_node)
+    print("Waktu\t\t\t: " + str(time.time() - startTime))
     draw_map(city, gbfs, graph_actual)
