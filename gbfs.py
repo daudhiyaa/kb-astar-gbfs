@@ -5,9 +5,12 @@ import time
 heuristics = defaultdict(list)
 graph = defaultdict(list)
 
-def addHeuristic(u, v):
+def get_heuristics():
     global heuristics
-    heuristics[u].append(v)
+    f = open("heuristics.txt")
+    for i in f.readlines():
+        node_heuristic_val = i.split()
+        heuristics[node_heuristic_val[0]].append(int(node_heuristic_val[1]))
 
 def addEdge(u, v):
     global graph
@@ -52,7 +55,8 @@ def GBFS(start, end):
     if flag:
         print_path(path, start_node, goal_node, finalTime)
         return path
-    else: []
+    else:
+        []
 
 def get_city():
     city = {}
@@ -72,7 +76,7 @@ def create_graph():
     graph_actual = {}
     f = open("actuals.txt")
     for i in f.readlines():
-        node_val = i.split(",")
+        node_val = i.split()
 
         if node_val[0] in graph_actual and node_val[1] in graph_actual:
             c = graph_actual.get(node_val[0])
@@ -118,30 +122,15 @@ def draw_map(city, gbfs, graph_actual):
             scnd = city[gbfs[i + 1]]
 
             plt.plot([first[0], scnd[0]], [first[1], scnd[1]], "green")
-        except: continue
+        except:
+            continue
 
     plt.errorbar(1, 1, label="GBFS", color="green")
     plt.legend(loc="lower right")
     plt.show()
 
 if __name__ == "__main__":
-    addHeuristic("Magetan", 162)
-    addHeuristic("Surabaya", 0)
-    addHeuristic("Ngawi", 130)
-    addHeuristic("Ponorogo", 128)
-    addHeuristic("Madiun", 126)
-    addHeuristic("Bojonegoro", 60)
-    addHeuristic("Nganjuk", 70)
-    addHeuristic("Jombang", 36)
-    addHeuristic("Lamongan", 36)
-    addHeuristic("Gresik", 12)
-    addHeuristic("Sidoarjo", 22)
-    addHeuristic("Probolinggo", 70)
-    addHeuristic("Situbondo", 146)
-    addHeuristic("Bangkalan", 140)
-    addHeuristic("Sampang", 90)
-    addHeuristic("Pamekasan", 104)
-    addHeuristic("Sumenep", 150)
+    get_heuristics()
 
     addEdge("Magetan", "Ngawi")
     addEdge("Magetan", "Madiun")
