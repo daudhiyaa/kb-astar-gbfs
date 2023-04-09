@@ -58,4 +58,5 @@ Dari output yang dihasilkan, dapat dilihat bahwa ada beberapa perbedaan antara k
 Oleh karena itu, dapat disimpulkan bahwa A* lebih lambat daripada GBFS karena harus mempertimbangkan cost sejauh ini untuk setiap kota yang dilalui, sementara GBFS hanya mempertimbangkan nilai heuristiknya. Namun, karena A* merupakan algoritma yang lebih optimal karena dapat menemukan jalur terpendek.
 
 
-Referensi [LINK] (https://networkx.guide/algorithms/shortest-path/a-star-search/)
+Referensi:
+- [LINK](https://networkx.guide/algorithms/shortest-path/a-star-search/)
